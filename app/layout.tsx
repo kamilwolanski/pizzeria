@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Container, Icon } from "./page";
-import Image from "next/image";
+import { Container } from "./components/container";
 import { Inter, Oswald, Bebas_Neue } from "next/font/google";
-import { Geist, Geist_Mono } from "next/font/google";
+
 export const metadata: Metadata = {
-  title: "Galio Pizza - Pizza Neapolitanska",
+  title: "Galio Pizza - Pizza Neapolitańska",
   description: "Prawdziwa pizza neapolitańska z odbiorem w Orzechówce.",
 };
 
@@ -18,15 +17,22 @@ const bebas = Bebas_Neue({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-bebas",
-  display: "swap", 
+  display: "swap",
 });
 
 const oswald = Oswald({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-oswald",
-  display: "swap", 
+  display: "swap",
 });
+
+const navItems = [
+  { label: "Strona główna", href: "#top" },
+  { label: "Menu", href: "#menu" },
+  { label: "O nas", href: "#onas" },
+  { label: "Kontakt", href: "#kontakt" },
+];
 
 export default function RootLayout({
   children,
@@ -34,68 +40,57 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pl" className={`h-full antialiased ${bebas.variable} ${oswald.variable} ${inter.variable}`}>
-      <body className='min-h-full flex flex-col'>
-        {/* NAV */}
+    <html
+      lang="pl"
+      className={`h-full antialiased ${bebas.variable} ${oswald.variable} ${inter.variable}`}
+    >
+      <body className="flex min-h-full flex-col">
         <header className="bg-[#050505]">
-          <Container className="">
+          <Container>
             <header
               className="
-              grid grid-cols-[150px_1fr_auto] items-center gap-x-12
-              max-[1100px]:grid-cols-[126px_1fr]
-              max-[720px]:grid-cols-1 max-[720px]:gap-y-4
-              py-4
+                grid items-center gap-4 py-4
+                md:grid-cols-[auto_1fr_auto] md:gap-x-8
+                lg:gap-x-12
             "
             >
               <a
-                className="inline-flex w-fit"
+                className="inline-flex w-fit items-center font-heading text-2xl font-bold uppercase leading-none text-white"
                 href="#top"
                 aria-label="Galio Pizza"
               >
-                {/* <Image
-                  src="/logo.jpg"
-                  alt="Galio Pizza"
-                  width={120}
-                  height={50}
-                /> */}
-                {/* <Logo /> */}
+                Galio Pizza
               </a>
 
               <nav
                 className="
-                flex justify-center gap-[54px]
-                uppercase font-[Impact,'Arial_Narrow',sans-serif] text-base text-[#f8f8f8]
-                max-[1100px]:justify-end max-[1100px]:gap-7
-                max-[720px]:justify-start max-[720px]:gap-5 max-[720px]:pt-0 max-[720px]:overflow-x-auto
+                  -mx-4 flex gap-5 overflow-x-auto px-4 pb-1
+                  font-heading text-base uppercase text-[#f8f8f8]
+                  md:mx-0 md:justify-center md:gap-7 md:overflow-visible md:px-0 md:pb-0
+                  lg:gap-[54px]
               "
-                aria-label="Glowne menu"
+                aria-label="Główne menu"
               >
-                {(["Strona główna", "Menu", "O nas", "Kontakt"] as const).map(
-                  (label, i) => {
-                    const hrefs = ["#top", "#menu", "#onas", "#kontakt"];
-                    return (
-                      <a
-                        key={label}
-                        href={hrefs[i]}
-                        className={`relative pb-[15px]${
-                          i === 0
-                            ? " after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-[2px] after:bg-[var(--c-red)]"
-                            : ""
-                        }`}
-                      >
-                        {label}
-                      </a>
-                    );
-                  },
-                )}
+                {navItems.map((item, index) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className={`relative shrink-0 pb-2 ${
+                      index === 0
+                        ? "after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:bg-[var(--c-red)] after:content-['']"
+                        : ""
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                ))}
               </nav>
 
-              <div className="flex gap-6 items-center max-[1100px]:col-start-2 max-[1100px]:pt-0 max-[720px]:col-auto max-[720px]:flex-wrap">
-                {/* <button type="button" className="btn-base btn-cart">
-                  <Icon name="cart" />
-                  <span>0,00 zł</span>
-                </button> */}
-                <a className="bg-red-700 text-white text-sm px-6 py-3 rounded-full font-semibold uppercase" href="#zamow">
+              <div className="hidden md:flex items-center md:justify-end">
+                <a
+                  className="inline-flex h-11 items-center justify-center rounded-full bg-red-700 px-6 text-sm font-semibold uppercase text-white"
+                  href="#zamow"
+                >
                   Zamów online
                 </a>
               </div>
